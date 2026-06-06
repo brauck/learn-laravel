@@ -1,0 +1,54 @@
+/vendor/
+/node_modules/
+
+# Laravel environment files
+.env
+.env.*
+.env.backup
+
+# Laravel caches
+bootstrap/cache/*.php
+!bootstrap/cache/.gitignore
+
+# Laravel logs
+storage/*.key
+storage/logs/*.log
+storage/logs/*.log.*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/framework/testing/*
+storage/app/*.tmp
+storage/app/public/*
+!storage/app/public/.gitignore
+
+# Compiled files
+*.compiled.php
+
+# IDE files
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NPM/Yarn logs
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Composer PHAR
+composer.phar
+
+# PHPUnit
+.phpunit.result.cache
+
+# PHPStorm
+*.iml
+
+# Misc
+*.cache
+*.tmp
