@@ -3,7 +3,7 @@
 
 # Laravel environment files
 .env
-.env.*
+# .env.*
 .env.backup
 
 # Laravel caches
