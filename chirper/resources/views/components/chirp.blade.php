@@ -42,8 +42,8 @@
                             Edit
                         </a>
                         <form method="POST" action="/chirps/{{ $chirp->id }}">
-                            @csrf
-                            @method('DELETE')
+                            @ csrf
+                            @ method('DELETE')
                             <button type="submit"
                                 onclick="return confirm('Are you sure you want to delete this chirp?')"
                                 class="btn btn-ghost btn-xs text-error">
