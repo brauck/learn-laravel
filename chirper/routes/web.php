@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\Auth\Login;
 use App\Http\Controllers\Auth\Logout;
+use App\Http\Controllers\ProfileController;
 
 
 // Route::get('/', function () {
 //     return view('home');
 // });
 
+// Home route
 Route::get('/', [ChirpController::class, 'index']);
 // Route::post('/chirps', [ChirpController::class, 'store']);
 // Route::get('/chirps/{chirp}/edit', [ChirpController::class, 'edit']);
@@ -26,8 +28,6 @@ Route::view('/register', 'auth.register')
 
 Route::post('/register', Register::class)
     ->middleware('guest');
-
-Route::get('/', [ChirpController::class, 'index']);
 
 // Protected routes
 Route::middleware('auth')->group(function () {
@@ -49,3 +49,10 @@ Route::post('/login', Login::class)
 Route::post('/logout', Logout::class)
     ->middleware('auth')
     ->name('logout');
+
+
+// Profile route
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});

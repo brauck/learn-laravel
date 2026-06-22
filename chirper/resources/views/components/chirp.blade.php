@@ -6,15 +6,30 @@
             @if ($chirp->user)
                 <div class="avatar">
                     <div class="size-10 rounded-full">
-                        <img src="https://avatars.laravel.cloud/{{ urlencode($chirp->user->email) }}"
-                            alt="{{ $chirp->user->name }}'s avatar" class="rounded-full" />
+                        @if ($chirp->user->avatar)
+                            {{-- Пользователь загрузил свой аватар --}}
+                            <img src="{{ asset('storage/' . $chirp->user->avatar) }}"
+                                alt="{{ $chirp->user->name }}'s avatar"
+                                class="rounded-full" />
+                        @else
+                            {{-- Используем Laravel Cloud Avatar --}}
+                            <img src="https://avatars.laravel.cloud/{{ urlencode($chirp->user->email) }}"
+                                alt="{{ $chirp->user->name }}'s avatar"
+                                class="rounded-full" />
+                        @endif
                     </div>
                 </div>
             @else
-                <div class="avatar placeholder">
+                <!--div class="avatar placeholder">
                     <div class="size-10 rounded-full">
                         <img src="https://avatars.laravel.cloud/f61123d5-0b27-434c-a4ae-c653c7fc9ed6?vibe=stealth"
                             alt="Anonymous User" class="rounded-full" />
+                    </div>
+                </div-->
+                {{-- fallback если по какой-то причине user отсутствует --}}
+                <div class="avatar placeholder">
+                    <div class="bg-neutral text-neutral-content rounded-full w-10">
+                        <span>?</span>
                     </div>
                 </div>
             @endif

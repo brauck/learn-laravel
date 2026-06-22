@@ -27,6 +27,7 @@
                     @csrf
                     <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
                 </form>
+                <a href="{{ route('profile.edit') }}" class="btn btn-ghost">Profile</a>
             @else
                 <a href="/login" class="btn btn-ghost btn-sm">Sign In</a>
                 <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Sign Up</a>

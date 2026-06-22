@@ -33,7 +33,7 @@ class ChirpController extends Controller
     {
         $this->authorize('update', $chirp);
 
-        return view('edit', compact('chirp'));
+        return view('chirps.edit', compact('chirp'));
     }
 
     public function update(Request $request, Chirp $chirp)
