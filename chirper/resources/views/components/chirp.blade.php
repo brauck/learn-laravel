@@ -63,6 +63,29 @@
                             </form>
                         </div>
                     @endcan
+                     <!-- ❤️ Лайки -->
+                    <div class="flex items-center gap-2">
+
+                        @auth
+                            @if ($chirp->likedBy(auth()->user()))
+                                <form method="POST" action="{{ route('chirps.unlike', $chirp) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="text-red-600">♥</button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('chirps.like', $chirp) }}">
+                                    @csrf
+                                    <button class="text-gray-500">♡</button>
+                                </form>
+                            @endif
+                        @endauth
+
+                        <span class="text-sm text-gray-600">
+                            {{ $chirp->likes()->count() }}
+                        </span>
+
+                    </div>
                 </div>
                 <p class="mt-1">{{ $chirp->message }}</p>
             </div>

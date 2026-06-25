@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\Auth\Login;
 use App\Http\Controllers\Auth\Logout;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LikeController;
 
 
 // Route::get('/', function () {
@@ -56,3 +57,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+// Like routes
+Route::post('/chirps/{chirp}/like', [LikeController::class, 'store'])
+    ->middleware('auth')
+    ->name('chirps.like');
+
+Route::delete('/chirps/{chirp}/like', [LikeController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('chirps.unlike');
