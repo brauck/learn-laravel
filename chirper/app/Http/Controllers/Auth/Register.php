@@ -30,6 +30,6 @@ class Register extends Controller
         Auth::login($user);
 
         // Redirect to home
-        return redirect('/')->with('success', 'Welcome to Chirper!');
+        return redirect()->route('home')->with('success', 'Welcome to Chirper!');
     }
 }

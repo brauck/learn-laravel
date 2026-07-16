@@ -31,7 +31,7 @@ class ChirpController extends Controller
             'message' => $validated['message'],
         ]);
 
-        return redirect('/')->with('success', 'Your chirp has been posted!');
+        return redirect()->route('home')->with('success', 'Your chirp has been posted!');
     }
 
     public function edit(Chirp $chirp)
@@ -51,7 +51,7 @@ class ChirpController extends Controller
 
         $chirp->update($validated);
 
-        return redirect('/')->with('success', 'Chirp updated!');
+        return redirect()->route('home')->with('success', 'Chirp updated!');
     }
 
     public function destroy(Chirp $chirp)
@@ -60,6 +60,6 @@ class ChirpController extends Controller
 
         $chirp->delete();
 
-        return redirect('/')->with('success', 'Chirp deleted!');
+        return redirect()->route('home')->with('success', 'Chirp deleted!');
     }
 }
