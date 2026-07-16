@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 </head>
 <body class="min-h-screen flex flex-col bg-base-200 font-sans">
     <nav class="navbar bg-base-100">
@@ -55,5 +56,7 @@
             <p>© {{ date('Y') }} Chirper - Built with Laravel and ❤️</p>
         </div>
     </footer>
+    {{-- ВАЖНО: именно здесь --}}
+    @stack('scripts')
 </body>
 </html>

@@ -1,13 +1,16 @@
+
 <x-layout>
     <x-slot:title>
         Home Feed
     </x-slot:title>
 
+    
+
     <div class="max-w-2xl mx-auto">
         <h1 class="text-3xl font-bold mt-8">Latest Chirps</h1>
 
         <!-- Chirp Form -->
-        <div class="card bg-base-100 shadow mt-8">
+        {{--<div class="card bg-base-100 shadow mt-8">
             <div class="card-body">
                 <form method="POST" action="/chirps">
                     @csrf
@@ -18,7 +21,6 @@
                             class="textarea textarea-bordered w-full resize-none @error('message') textarea-error @enderror"
                             rows="4"
                             maxlength="255"
-                            required
                         >{{ old('message') }}</textarea>
 
                         @error('message')
@@ -35,7 +37,46 @@
                     </div>
                 </form>
             </div>
+        </div>--}}
+        
+
+        <div class="card bg-base-100 shadow mt-8">
+            <div class="card-body">
+                <form  method="POST" action="/chirps">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="message" class="block text-sm font-medium text-gray-700">
+                            Message
+                        </label>
+                        <textarea
+                            id="message"
+                            placeholder="What's on your mind?"
+                            name="message"
+                            rows="3"
+                            class="textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            autofocus="true"
+                            oninput="updateCounter()"
+                        ></textarea>
+
+                        <div class="flex justify-between mt-1">
+                            <span id="charCount" class="text-sm text-gray-600">0 / 255</span>
+                            <span id="charWarning" class="text-sm text-red-600 hidden">
+                                Too long!
+                            </span>
+                        </div>
+                    </div>
+
+                    <button
+                        id="submitBtn"
+                        type="submit"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-md disabled:opacity-50"
+                    >
+                        Post Chirp
+                    </button>
+                </form>
+            </div>
         </div>
+        
 
         <!-- Feed -->
         <div class="space-y-4 mt-8">
@@ -55,4 +96,39 @@
             @endforelse
         </div>
     </div>
+    @push('scripts')
+    <script>        
+        console.log("start script")
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const textarea = document.getElementById('message');
+            if (textarea) {
+                textarea.value = '';
+            }
+        });
+
+        const maxLength = 255;
+
+        function updateCounter() {
+            const textarea = document.getElementById('message');
+            const count = textarea.value.length;
+
+            const counter = document.getElementById('charCount');
+            const warning = document.getElementById('charWarning');
+            const submitBtn = document.getElementById('submitBtn');
+
+            counter.textContent = `${count} / ${maxLength}`;
+
+            if (count > maxLength) {
+                counter.classList.add('text-red-600');
+                warning.classList.remove('hidden');
+                submitBtn.disabled = true;
+            } else {
+                counter.classList.remove('text-red-600');
+                warning.classList.add('hidden');
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+    @endpush
 </x-layout>
