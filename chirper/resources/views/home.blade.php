@@ -81,6 +81,7 @@
         <!-- Feed -->
         <div class="space-y-4 mt-8">
             @forelse ($chirps as $chirp)
+                {{--<livewire:like-button :chirp="$chirp" />--}}
                 <x-chirp :chirp="$chirp" />
             @empty
                 <div class="hero py-12">

@@ -64,7 +64,7 @@
                         </div>
                     @endcan
                      <!-- ❤️ Лайки -->
-                    <div class="flex items-center gap-2">
+                    {{--<div class="flex items-center gap-2">
 
                         @auth
                             @if ($chirp->likedBy(auth()->user()))
@@ -84,8 +84,8 @@
                         <span class="text-sm text-gray-600">
                             {{ $chirp->likes()->count() }}
                         </span>
-
-                    </div>
+                    </div>--}}
+                    <livewire:like-button :chirp="$chirp" />
                 </div>
                 <p class="mt-1">{{ $chirp->message }}</p>
             </div>
