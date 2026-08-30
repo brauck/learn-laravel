@@ -12,6 +12,7 @@ class LikeButton extends Component
     public function like()
     {
         \Log::info('like clicked');
+        $this->chirp->increment('likes_count');        
         $this->chirp->likes()->firstOrCreate([
             'user_id' => auth()->id(),
         ]);
@@ -21,6 +22,8 @@ class LikeButton extends Component
 
     public function unlike()
     {
+        \Log::info('unlike clicked');
+        $this->chirp->decrement('likes_count');
         $this->chirp->likes()->where('user_id', auth()->id())->delete();
         $this->chirp->refresh();
     }
