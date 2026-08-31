@@ -2,64 +2,23 @@
 
 namespace App\Http\Controllers;
 
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
 use App\Models\Chirp;
+use App\Events\ChirpLiked;
 use Illuminate\Http\Request;
 
-class ChirpController extends Controller
+class ChirpLikeController extends Controller
 {
-    public function index()
+    public function like(Chirp $chirp)
     {
-        $chirps = Chirp::with('user')
-            ->latest()
-            ->take(50)  // Limit to 50 most recent chirps
-            ->get();
+        $chirp->increment('likes_count');
+        $chirp->likes()->firstOrCreate(['user_id' => auth()->id()]);
 
-        return view('home', ['chirps' => $chirps]);
-    }
+        // Laravel сам подхватит X-Socket-ID из заголовков React-запроса
+        broadcast(new ChirpLiked($chirp->id))->toOthers();
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-        'message' => 'required|string|max:255',
-        ], [
-            'message.required' => 'Please write something to chirp!',
-            'message.max' => 'Chirps must be 255 characters or less.',
-        ]);
-
-        // Use the authenticated user
-        auth()->user()->chirps()->create([
-            'message' => $validated['message'],
-        ]);
-
-        return redirect()->route('home')->with('success', 'Your chirp has been posted!');
-    }
-
-    public function edit(Chirp $chirp)
-    {
-        $this->authorize('update', $chirp);
-
-        return view('chirps.edit', compact('chirp'));
-    }
-
-    public function update(Request $request, Chirp $chirp)
-    {
-        $this->authorize('update', $chirp);
-
-        $validated = $request->validate([
-            'message' => 'required|string|max:255',
-        ]);
-
-        $chirp->update($validated);
-
-        return redirect()->route('home')->with('success', 'Chirp updated!');
-    }
-
-    public function destroy(Chirp $chirp)
-    {
-        $this->authorize('delete', $chirp);
-
-        $chirp->delete();
-
-        return redirect()->route('home')->with('success', 'Chirp deleted!');
+        return response()->json(['success' => true]);
     }
 }
