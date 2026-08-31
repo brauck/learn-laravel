@@ -68,9 +68,10 @@ class LikeButton extends Component
             'user_id' => auth()->id(),
         ]); 
         $this->isLiked = true; // Мгновенно меняем статус для себя
+        $this->likesCount++;
 
         // 2. Отправляем событие в WebSocket для ВСЕХ остальных пользователей
-        broadcast(new ChirpLiked($this->chirp->id));
+        broadcast(new ChirpLiked($this->chirp->id))->toOthers();
     }
 
     public function unlike()
@@ -79,9 +80,10 @@ class LikeButton extends Component
         $this->chirp->decrement('likes_count');
         $this->chirp->likes()->where('user_id', auth()->id())->delete();
         $this->isLiked = false; // Мгновенно меняем статус для себя
+        $this->likesCount--;
 
         // Отправляем событие снятия лайка в Reverb
-        broadcast(new ChirpUnliked($this->chirp->id));
+        broadcast(new ChirpUnliked($this->chirp->id))->toOthers();
     }
 
     // Магия Livewire: префикс `echo:` говорит слушать WebSocket канал 'chirps-activity'
