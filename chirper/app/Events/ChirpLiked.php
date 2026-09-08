@@ -28,4 +28,10 @@ class ChirpLiked implements ShouldBroadcastNow
             new Channel('chirps-activity'),
         ];
     }
+
+    public function broadcastAs(): string
+    {
+        return 'ChirpLiked'; // Переопределяет имя события для фронтенда
+    }
+
 }

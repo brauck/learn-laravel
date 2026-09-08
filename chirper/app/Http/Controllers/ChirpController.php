@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Chirp;
+use App\Models\User;
+//use Auth;
 use Illuminate\Http\Request;
 
 class ChirpController extends Controller
@@ -14,7 +17,7 @@ class ChirpController extends Controller
             ->take(50)  // Limit to 50 most recent chirps
             ->get();
 
-        return view('home', ['chirps' => $chirps]);
+        return View('home', ['chirps' => $chirps]);
     }
 
     public function store(Request $request)
@@ -27,7 +30,10 @@ class ChirpController extends Controller
         ]);
 
         // Use the authenticated user
-        auth()->user()->chirps()->create([
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->chirps()->create([
             'message' => $validated['message'],
         ]);
 
@@ -38,7 +44,7 @@ class ChirpController extends Controller
     {
         $this->authorize('update', $chirp);
 
-        return view('chirps.edit', compact('chirp'));
+        return View('chirps.edit', compact('chirp'));
     }
 
     public function update(Request $request, Chirp $chirp)

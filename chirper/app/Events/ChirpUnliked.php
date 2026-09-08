@@ -25,4 +25,10 @@ class ChirpUnliked implements ShouldBroadcastNow
             new Channel('chirps-activity'), // Тот же канал, что и для лайков
         ];
     }
+
+    public function broadcastAs(): string
+    {
+        return 'ChirpUnliked';
+    }
+
 }

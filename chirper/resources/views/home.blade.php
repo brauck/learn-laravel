@@ -99,7 +99,7 @@
     </div>
     @push('scripts')
     <script>        
-        console.log("start script")
+        console.log("start script in home.blade.php")
 
         window.addEventListener('DOMContentLoaded', () => {
             const textarea = document.getElementById('message');

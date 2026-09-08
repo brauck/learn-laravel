@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\ChirpController;
+use App\Http\Controllers\Api\ChirpLikeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\Auth\Login;
@@ -96,4 +97,10 @@ Route::middleware('auth')->group(function () {
 
     // Logout
     Route::post('/logout', Logout::class)->name('logout');
+});
+
+// Добавляем веб-роуты для React
+Route::middleware('auth')->group(function () {
+    Route::post('/chirps/{chirp}/like', [ChirpLikeController::class, 'like']);
+    Route::post('/chirps/{chirp}/unlike', [ChirpLikeController::class, 'unlike']);
 });

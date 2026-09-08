@@ -85,7 +85,17 @@
                             {{ $chirp->likes()->count() }}
                         </span>
                     </div>--}}
-                    <livewire:like-button :chirp="$chirp" />
+                    {{--<livewire:like-button :chirp="$chirp" />--}}
+                    <div 
+                        class="react-like-button mt-4" 
+                        data-chirp='@json([
+                            "id" => $chirp->id,
+                            "likes_count" => $chirp->likes_count,
+                            "is_liked" => auth()->check() ? $chirp->likedBy(auth()->user()) : false
+                        ])'
+                    >
+                        <!-- Сюда React автоматически вставит интерактивную кнопку -->
+                    </div>
                 </div>
                 <p class="mt-1">{{ $chirp->message }}</p>
             </div>
