@@ -100,7 +100,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Добавляем веб-роуты для React
-Route::middleware('auth')->group(function () {
-    Route::post('/chirps/{chirp}/like', [ChirpLikeController::class, 'like']);
-    Route::post('/chirps/{chirp}/unlike', [ChirpLikeController::class, 'unlike']);
-});
+// Route::middleware('auth')->group(function () {
+//     Route::post('/chirps/{chirp}/like', [ChirpLikeController::class, 'like']);
+//     Route::post('/chirps/{chirp}/unlike', [ChirpLikeController::class, 'unlike']);
+// });

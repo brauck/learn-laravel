@@ -290,6 +290,10 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ initialChirp }) => {
                 credentials: 'include',
             });
 
+            if (response.status === 401) {
+            window.location.href = '/login';
+            return;}
+
             if (!response.ok) throw new Error('API Error');
         } catch (error) {
             setIsLiked(currentlyLiked);
