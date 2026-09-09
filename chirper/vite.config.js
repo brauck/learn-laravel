@@ -23,5 +23,9 @@ export default defineConfig({
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
+        host: '0.0.0.0', // Позволяет подключаться к Vite извне контейнера
+        hmr: {
+            host: 'localhost', // Браузер на вашем ПК будет слать HMR-запросы на localhost
+        },
     },
 });
