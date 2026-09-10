@@ -17,7 +17,15 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // ДОБАВЛЯЕМ ЭТУ СТРОКУ ДЛЯ ПОДДЕРЖКИ СЕССИЙ В API
         $middleware->api(prepend: [
-            EnsureFrontendRequestsAreStateful::class,
+        //     EnsureFrontendRequestsAreStateful::class,
+        // ]);
+
+        // $middleware->alias([
+        //     'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,       // Добавляем шифрование кук
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,  
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

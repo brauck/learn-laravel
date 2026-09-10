@@ -278,6 +278,9 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ initialChirp }) => {
                 : `/api/chirps/${initialChirp.id}/like`;
 
             // Читаем ТОКЕН НАПРЯМУЮ из HTML-верстки, это никогда не упадет
+            // const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            // const xsrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            // 1. Читаем чистый, расшифрованный токен напрямую из HTML-разметки Blade
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
             // Получаем куку для авторизации Sanctum
@@ -288,12 +291,18 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ initialChirp }) => {
                 return '';
             };
 
+            // const xsrfToken = getCookie('XSRF-TOKEN');
+
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken, // Меняем X-XSRF-TOKEN на стандартный X-CSRF-TOKEN
+                    // 'X-CSRF-TOKEN': csrfToken, // Меняем X-XSRF-TOKEN на стандартный X-CSRF-TOKEN
+                    // 'X-XSRF-TOKEN': xsrfToken, // Sanctum Stateful требует именно X-XSRF-TOKEN из куки
+                    // 2. Передаем стандартный веб-токен. Мидлвар EnsureFrontendRequestsAreStateful 
+                    // умеет проверять его вместе с сессионными куками credentials!
+                    'X-CSRF-TOKEN': csrfToken, 
                     'X-Socket-ID': echo.socketId() || '', 
                 },
                 credentials: 'include',
