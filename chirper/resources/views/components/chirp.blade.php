@@ -87,7 +87,8 @@
                     </div>--}}
                     {{--<livewire:like-button :chirp="$chirp" />--}}
                     <div 
-                        class="react-like-button mt-4" 
+                        class="react-like-button mt-4"
+                        data-navigate-ignore
                         data-chirp='@json([
                             "id" => $chirp->id,
                             "likes_count" => $chirp->likes_count,

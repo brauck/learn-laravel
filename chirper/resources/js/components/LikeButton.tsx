@@ -261,7 +261,13 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ initialChirp }) => {
         };
     }, []); // Массив зависимостей пустой: слушатель вешается ровно ОДИН раз при старте страницы
 
-    const handleLikeToggle = async () => {
+    
+    // 1. Добавляем React.MouseEvent в аргументы функции
+        const handleLikeToggle = async (e: React.MouseEvent<HTMLButtonElement>) => {
+            e.preventDefault();  // КРИТИЧЕСКИ ВАЖНО: блокирует стандартную отправку формы и перезагрузку!
+            e.stopPropagation(); // Блокирует всплытие события к родительским элементам
+            e.nativeEvent.stopImmediatePropagation(); // БЛОКИРУЕТ СТОРОННИЕ СКРИПТЫ (LIVEWIRE) НА КОРНЕВОМ УРОВНЕ
+
         const currentlyLiked = isLiked;
         setIsLiked(!currentlyLiked);
         setLikesCount((prev) => currentlyLiked ? prev - 1 : prev + 1);
@@ -270,6 +276,9 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ initialChirp }) => {
             const endpoint = currentlyLiked 
                 ? `/api/chirps/${initialChirp.id}/unlike` 
                 : `/api/chirps/${initialChirp.id}/like`;
+
+            // Читаем ТОКЕН НАПРЯМУЮ из HTML-верстки, это никогда не упадет
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
             // Получаем куку для авторизации Sanctum
             const getCookie = (name: string): string => {
@@ -284,7 +293,7 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ initialChirp }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                    'X-CSRF-TOKEN': csrfToken, // Меняем X-XSRF-TOKEN на стандартный X-CSRF-TOKEN
                     'X-Socket-ID': echo.socketId() || '', 
                 },
                 credentials: 'include',
@@ -304,7 +313,11 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ initialChirp }) => {
 
     return (
         <div className="flex items-center gap-2">
-            <button onClick={handleLikeToggle} className="text-xl">
+            <button 
+                type="button" // Гарантирует, что браузер не сочтет кнопку за submit формы
+                onClick={handleLikeToggle} 
+                className="text-xl"
+            >
                 {isLiked ? '❤️' : '🤍'}
             </button>
             <span className="text-sm text-gray-600">{likesCount}</span>
