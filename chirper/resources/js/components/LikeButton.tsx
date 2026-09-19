@@ -304,7 +304,11 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ initialChirp }) => {
 
     return (
         <div className="flex items-center gap-2">
-            <button onClick={handleLikeToggle} className="text-xl">
+            <button 
+                type="button" // Гарантирует, что браузер не сочтет кнопку за submit формы
+                onClick={handleLikeToggle} 
+                className="text-xl"
+            >
                 {isLiked ? '❤️' : '🤍'}
             </button>
             <span className="text-sm text-gray-600">{likesCount}</span>
